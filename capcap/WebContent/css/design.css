@@ -1,0 +1,32 @@
+body {
+	color: 		#ffffff;
+	font-size:  2em;
+	text-align: center;
+	width: 		100%;
+}
+
+#contaifner-main {
+  background: linear-gradient(to bottom right, red, yellow);
+}
+
+#button {
+    width: 6em;
+    border: 2px solid #353535;
+    background: #ffe;
+    border-radius: 5px;
+    margin: 0 auto;
+}
+
+#button:hover {
+	background:rgba(255,255,255,0.5);
+	cursor: pointer;
+}
+
+a {
+    width: 100%;
+    line-height: 2em;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    color: #000000;
+}
