@@ -15,6 +15,7 @@ body {
     background: #ffe;
     border-radius: 5px;
     margin: 0 auto;
+    color: #000000;
 }
 
 #button:hover {

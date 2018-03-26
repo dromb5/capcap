@@ -7,18 +7,19 @@
 	</head>
 	<body onload="init()">
 		<div id="camera-container">
-			<video autoplay="true" id="videoElement"></video>
-		</div>
+    		<video id="video" width="640" height="480" autoplay></video>
+    	</div>
 		<div id="dataContainerOrientation">
       		No device orientation data
     	</div>
     	<div id="dataContainerMotion">
       		No device motion data
     	</div>
-    	<div>
-    		<video id="video" width="640" height="480" autoplay></video>
-    	</div>
+    	<div id="JSONLatitude"></div>
+    	<div id="JSONLongitude"></div>
+    	<div id="eventType"></div>
 		<script type="text/javascript" src="js/show-video.js"></script>
 		<script type="text/javascript" src="js/motion.js"></script>
+		<script type="text/javascript" src="js/parse-json.js"></script>
 	</body>
 </html>

@@ -23,10 +23,15 @@ if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         video.play();
     }, errBack);
 }
-var canvas = document.getElementById('canvas');
-var context = canvas.getContext('2d');
+//var canvas = document.getElementById('canvas');
+//var context = canvas.getContext('2d');
 
 // Trigger photo take
-document.getElementById("snap").addEventListener("click", function() {
-	context.drawImage(video, 0, 0, 640, 480);
-});
+//document.getElementById("snap").addEventListener("click", function() {
+//	context.drawImage(video, 0, 0, 640, 480);
+//});
+
+if (video.requestFullscreen) {
+  video.requestFullscreen();
+}
+
