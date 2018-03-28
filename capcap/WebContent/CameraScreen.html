@@ -4,6 +4,8 @@
 		<meta charset="UTF-8">
 		<title>Camera</title>
 		<link rel="stylesheet" href="css/video-design.css">
+		<script defer src="font-awesome/fontawesome-free-5.0.9/svg-with-js/js/fontawesome-all.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
 	<body onload="init()">
 		<div id="camera-container">
@@ -15,11 +17,20 @@
     	<div id="dataContainerMotion">
       		No device motion data
     	</div>
+    	<div id="icon" class='icon'>
+    		<i class="fas fa-fire fa-7x" id="fire-icon"></i>
+    	</div>
+    	<div id="upicon" class='upicon'>
+    		<i class="fas fa-arrow-alt-circle-up fa-7x" id="up-icon"></i>
+    	</div>
+    	<div id="downicon" class='downicon'>
+    		<i class="fas fa-arrow-alt-circle-down fa-7x" id="down-icon"></i>
+    	</div>
     	<div id="JSONLatitude"></div>
     	<div id="JSONLongitude"></div>
     	<div id="eventType"></div>
 		<script type="text/javascript" src="js/show-video.js"></script>
-		<script type="text/javascript" src="js/motion.js"></script>
 		<script type="text/javascript" src="js/parse-json.js"></script>
+		<script type="text/javascript" src="js/position-icon.js"></script>
 	</body>
 </html>
