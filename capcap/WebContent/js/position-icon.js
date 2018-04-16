@@ -1,9 +1,15 @@
-
-
 var alpha;
 var beta;
 var gamma;
 var betta;
+
+var eventLatitude = 45.820746;
+var eventLongitude = 15.944080;
+
+var latitudeVector;
+var longitudeVector;
+
+var heading;
 
 function makeNewPosition(betta){
     
@@ -148,9 +154,10 @@ function init() {
               alpha = event.alpha;
               beta = event.beta;
               gamma = event.gamma;
+              var abs = event.absolute;
               if(alpha!=null || beta!=null || gamma!=null) 
-                dataContainerOrientation.innerHTML = 'alpha: ' + alpha + '<br/>beta: ' + beta + '<br />gamma: ' + gamma;
-            }, false);
+                dataContainerOrientation.innerHTML = 'alpha: ' + alpha + '<br/>beta: ' + beta + '<br />gamma: ' + gamma + '<br />abs: ' + abs;
+            }, true);
     }
 
     // Check for support for DeviceMotion events
@@ -173,3 +180,100 @@ function init() {
     	animateDiv(betta);
     	}, 500);
   }
+
+function getEventVector() {
+	if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition();
+        latitudeVector = eventLatitude - position.coords.latitude;
+        longitudeVector = eventLongitude - position.coords.longitude;
+    }
+}
+
+var promise = FULLTILT.getDeviceOrientation({ 'type': 'world' });
+var dataContainerMotions = document.getElementById('dataContainerMotion');
+if ('ondeviceorientationabsolute' in window) {
+	window.addEventListener('deviceorientationabsolute', function(event) {
+		dataContainerMotions.innerHTML = 'alpha: ' + event.alpha + '<br/>beta: ' + event.beta + '<br />gamma: ' + event.gamma + '<br />abs: ' + event.absolute;
+	}, true);
+	} else if ('ondeviceorientation' in window) {
+		dataContainerMotions.innerHTML = 'not';
+	}
+/*
+// Wait for Promise result
+promise.then(function(deviceOrientation) { // Device Orientation Events are supported
+
+  // Register a callback to run every time a new 
+  // deviceorientation event is fired by the browser.
+  deviceOrientation.listen(function() {
+
+    // Get the current *screen-adjusted* device orientation angles
+    var currentOrientation = deviceOrientation.getScreenAdjustedEuler();
+
+    // Calculate the current compass heading that the user is 'looking at' (in degrees)
+    var compassHeading = 360 - currentOrientation.alpha;
+
+    dataContainerMotions.innerHTML = compassHeading;
+
+  });
+
+}).catch(function(errorMessage) { // Device Orientation Events are not supported
+
+  console.log(errorMessage);
+
+  // Implement some fallback controls here...
+
+});
+*/
+
+
+/*
+
+function compassHeading(alpha, beta, gamma) {
+	
+	  var dataContainerMotion = document.getElementById('dataContainerMotion');
+
+	  // Convert degrees to radians
+	  var alphaRad = alpha * (Math.PI / 180);
+	  var betaRad = beta * (Math.PI / 180);
+	  var gammaRad = gamma * (Math.PI / 180);
+
+	  // Calculate equation components
+	  var cA = Math.cos(alphaRad);
+	  var sA = Math.sin(alphaRad);
+	  var cB = Math.cos(betaRad);
+	  var sB = Math.sin(betaRad);
+	  var cG = Math.cos(gammaRad);
+	  var sG = Math.sin(gammaRad);
+
+	  // Calculate A, B, C rotation components
+	  var rA = - cA * sG - sA * sB * cG;
+	  var rB = - sA * sG + cA * sB * cG;
+	  var rC = - cB * cG;
+
+	  // Calculate compass heading
+	  var compassHeading = Math.atan(rA / rB);
+
+	  // Convert from half unit circle to whole unit circle
+	  if(rB < 0) {
+	    compassHeading += Math.PI;
+	  }else if(rA < 0) {
+	    compassHeading += 2 * Math.PI;
+	  }
+
+	  // Convert radians to degrees
+	  compassHeading *= 180 / Math.PI;
+
+	  return compassHeading;
+
+	}
+
+	window.addEventListener('deviceorientation', function(evt) {
+
+	  heading = compassHeading(alpha, beta, gamma);
+
+	  dataContainerMotion.innerHTML = heading;
+
+	}, false);
+
+*/
+
