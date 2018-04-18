@@ -4,143 +4,148 @@ var gamma;
 var betta;
 var aalpha;
 
-var eventLatitude = 45.8009741;
-var eventLongitude = 16.0293145;
-
-var latitudeVector;
-var longitudeVector;
-
 var latitude;
 var longitude;
 
 var heading;
 
-var theta;
+var theta = [];
 
 var counter;
+
+var myObj;
 
 function countEvents() {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
-	        var myObj = JSON.parse(this.responseText);
+	        myObj = JSON.parse(this.responseText);
 	        counter = Object.keys(myObj.events).length;
 	    }
 	};
-	xmlhttp.open("GET", "https://api.myjson.com/bins/b7co7", true);
+	xmlhttp.open("GET", "https://api.myjson.com/bins/cs7tf", true);
 	xmlhttp.send();
 }
 
 function createEvent() {
 	countEvents();
-	var i;
-	for (i = 0; i < 1; i++) { //TODO: 1 should be changed to counter
-		var div = document.createElement('div');
-		var eventType;
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.onreadystatechange = function() {
-		    if (this.readyState == 4 && this.status == 200) {
-		        var myObj = JSON.parse(this.responseText);
-		        eventType = myObj.events[i].eventType;
-		        div.innerHTML = "<i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon\"></i>" + counter;
-		    	div.setAttribute('id', 'icon');
-		    	div.setAttribute('class', 'icon');
-		    }
-		};
-		xmlhttp.open("GET", "https://api.myjson.com/bins/qa9fb", true);
-		xmlhttp.send();
-		document.body.appendChild(div);
+	var check = function(){
+	    if(myObj != null){
+	        // run when condition is met
+	    	var i;
+	    	for (i = 0; i < 1; i++) { //TODO: 1 should be changed to counter
+	    		var div = document.createElement('div');
+	    		var eventType;
+	            eventType = myObj.events[i].eventType;
+	            div.innerHTML = "<i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon\"></i>";
+	        	div.setAttribute('id', 'icon' + i);
+	        	div.setAttribute('class', 'icon');
+	        	var eventNumber = i;
+	        	setInterval(function() {
+	            	betta = beta;
+	            	aalpha = alpha;
+	            	animateDiv(betta, aalpha, eventNumber);
+	            	}, 500);
+	    		document.body.appendChild(div);
+	    	}
+	    }
+	    else {
+	        setTimeout(check, 500); // check again in a second
+	    }
 	}
+
+	check();
+	
 }
 
-function makeNewPosition(betta, aalpha){
+function makeNewPosition(betta, aalpha, i){
     
     var h = $(window).height() - 150;
     var w = $(window).width() - 100;
     
     if (betta > 60 && betta < 66) {
     	var nh = Math.floor(0 * h);
-        showIcon();
+        showIcon(i);
         hideDownArrow();
         hideUpArrow();
     } else if (betta >= 66 && betta < 72) {
     	var nh = Math.floor(0.1 * h);
-        showIcon();
+        showIcon(i);
         hideDownArrow();
         hideUpArrow();
     } else if (betta >= 72 && betta < 78) {
     	var nh = Math.floor(0.2 * h);
-        showIcon();
+        showIcon(i);
         hideDownArrow();
         hideUpArrow();
     } else if (betta >= 78 && betta < 84) {
     	var nh = Math.floor(0.3 * h);
-        showIcon();
+        showIcon(i);
         hideDownArrow();
         hideUpArrow();
     } else if (betta >= 84 && betta < 90) {
     	var nh = Math.floor(0.4 * h);
         var nw = Math.floor(0.5 * w);
-        showIcon();
+        showIcon(i);
         hideDownArrow();
         hideUpArrow();
     } else if (betta >= 90 && betta < 96) {
     	var nh = Math.floor(0.5 * h);
-        showIcon();
+        showIcon(i);
         hideDownArrow();
         hideUpArrow();
     } else if (betta >= 96 && betta < 102) {
     	var nh = Math.floor(0.6 * h);
-        showIcon();
+        showIcon(i);
         hideDownArrow();
         hideUpArrow();
     } else if (betta >= 102 && betta < 108) {
     	var nh = Math.floor(0.7 * h);
-        showIcon();
+        showIcon(i);
         hideDownArrow();
         hideUpArrow();
     } else if (betta >= 108 && betta < 114) {
     	var nh = Math.floor(0.8 * h);
-        showIcon();
+        showIcon(i);
         hideDownArrow();
         hideUpArrow();
     } else if (betta >= 114 && betta < 120) {
     	var nh = Math.floor(0.9 * h);
-        showIcon();
+        showIcon(i);
         hideDownArrow();
         hideUpArrow();
     } else if (betta >= 120) {
     	var nh = Math.floor(1 * h);
         showDownArrow();
         moveDown();
-        hideIcon();
+        hideIcon(i);
     } else {
     	var nh = Math.floor(0 * h);
         showUpArrow();
-        hideIcon();
+        hideIcon(i);
         moveUp();
     }
     
-    if (theta < aalpha + 10 && theta > aalpha - 10) {
-    	if (aalpha - theta > -10 && aalpha - theta <= -8) {
+    if (theta[i] < aalpha + 10 && theta[i] > aalpha - 10) {
+    	if (aalpha - theta[i] > -10 && aalpha - theta[i] <= -8) {
     		var nw = Math.floor(0 * w);
-    	} else if (aalpha - theta > -8 && aalpha - theta <= -6) {
+    	} else if (aalpha - theta[i] > -8 && aalpha - theta[i] <= -6) {
     		var nw = Math.floor(0.1 * w);
-    	} else if (aalpha - theta > -6 && aalpha - theta <= -4) {
+    	} else if (aalpha - theta[i] > -6 && aalpha - theta[i] <= -4) {
     		var nw = Math.floor(0.2 * w);
-    	} else if (aalpha - theta > -4 && aalpha - theta <= -2) {
+    	} else if (aalpha - theta[i] > -4 && aalpha - theta[i] <= -2) {
     		var nw = Math.floor(0.3 * w);
-    	} else if (aalpha - theta > -2 && aalpha - theta <= 0) {
+    	} else if (aalpha - theta[i] > -2 && aalpha - theta[i] <= 0) {
     		var nw = Math.floor(0.4 * w);
-    	} else if (aalpha - theta > 0 && aalpha - theta <= 2) {
+    	} else if (aalpha - theta[i] > 0 && aalpha - theta[i] <= 2) {
     		var nw = Math.floor(0.5 * w);
-    	} else if (aalpha - theta > 2 && aalpha - theta <= 4) {
+    	} else if (aalpha - theta[i] > 2 && aalpha - theta[i] <= 4) {
     		var nw = Math.floor(0.6 * w);
-    	} else if (aalpha - theta > 4 && aalpha - theta <= 6) {
+    	} else if (aalpha - theta[i] > 4 && aalpha - theta[i] <= 6) {
     		var nw = Math.floor(0.7 * w);
-    	} else if (aalpha - theta > 6 && aalpha - theta <= 8) {
+    	} else if (aalpha - theta[i] > 6 && aalpha - theta[i] <= 8) {
     		var nw = Math.floor(0.8 * w);
-    	} else if (aalpha - theta > 8 && aalpha - theta <= 10) {
+    	} else if (aalpha - theta[i] > 8 && aalpha - theta[i] <= 10) {
     		var nw = Math.floor(0.9 * w);
     	}
     } else {
@@ -152,9 +157,10 @@ function makeNewPosition(betta, aalpha){
     
 }
 
-function animateDiv(betta, aalpha){
-    var newq = makeNewPosition(betta, aalpha);
-    $('.icon').animate({ top: newq[0], left: newq[1] });
+function animateDiv(betta, aalpha, i){
+    var newq = makeNewPosition(betta, aalpha, i);
+    var icon = '#icon' + i;
+    $(icon).animate({ top: newq[0], left: newq[1] });
     
 };
 
@@ -170,13 +176,13 @@ function moveUp(betta, aalpha){
     
 };
 
-function hideIcon() {
-	var x = document.getElementById("icon");
+function hideIcon(i) {
+	var x = document.getElementById("icon" + i);
 	x.style.display = "none";
 }
 
-function showIcon() {
-	var x = document.getElementById("icon");
+function showIcon(i) {
+	var x = document.getElementById("icon" + i);
 	x.style.display = "block";
 }
 
@@ -205,26 +211,43 @@ function calcAngleDegrees(x, y) {
 }
 
 function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
+	var check = function(){
+	    if(myObj != null){
+	        // run when condition is met
+	    	if (navigator.geolocation) {
+	            navigator.geolocation.getCurrentPosition(showPosition);
+	        } else { 
+	            x.innerHTML = "Geolocation is not supported by this browser.";
+	        }
+	    }
+	    else {
+	        setTimeout(check, 500); // check again in a second
+	    }
+	}
+
+	check();
+    
 }
 
 function showPosition(position) {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
-    latitudeVector = eventLatitude - latitude;
-    longitudeVector = eventLongitude - longitude;
-    theta = calcAngleDegrees(latitudeVector, longitudeVector);
-    if (theta < 0) {
-    	theta += 360;
+    var i;
+    for (i = 0; i < counter; i++) {
+    	var eventLatitude = myObj.events[i].latitude;
+    	var eventLongitude = myObj.events[i].longitude;
+    	var latitudeVector = eventLatitude - latitude;
+        var longitudeVector = eventLongitude - longitude;
+        theta.push(calcAngleDegrees(latitudeVector, longitudeVector));
+        if (theta[i] < 0) {
+        	theta[i] += 360;
+        }
+        theta[i] += 100;
+        if (theta[i] > 360) {
+        	theta[i] -= 360;
+        }
     }
-    theta += 100;
-    if (theta > 360) {
-    	theta -= 360;
-    }
+    
 }
 
 function init() {
@@ -244,7 +267,7 @@ function init() {
                 + '<br />abs: ' + abs + '<br />theta: ' + theta;
             }, true);
     }
-
+    /*
     // Check for support for DeviceMotion events
     if(window.DeviceMotionEvent) {
     window.addEventListener('devicemotion', function(event) {
@@ -259,12 +282,9 @@ function init() {
               dataContainerMotion.innerHTML = html;                  
             });
     }
+    */
     
-    setInterval(function() {
-    	betta = beta;
-    	aalpha = alpha;
-    	animateDiv(betta, aalpha);
-    	}, 500);
+    
   }
 
 
