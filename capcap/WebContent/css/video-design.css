@@ -42,17 +42,19 @@ div.icon {
 }
 
 div.downicon {
-	width: 50px;
-	height:50px;
-	position:fixed;
-	display:none;
+	position: fixed;
+  	left: 50%;
+  	bottom: 20px;
+  	transform: translate(-50%, -50%);
+  	margin: 0 auto;
 }
 
 div.upicon {
-	width: 50px;
-	height:50px;
-	position:fixed;
-	display:none;
+	position: fixed;
+  	left: 50%;
+  	top: 100px;
+  	transform: translate(-50%, -50%);
+  	margin: 0 auto;
 }
 
 #fire-icon {

@@ -3,6 +3,7 @@ var beta;
 var gamma;
 var betta;
 var aalpha;
+var aaalpha;
 
 var latitude;
 var longitude;
@@ -14,6 +15,8 @@ var theta = [];
 var counter;
 
 var myObj;
+
+var closest;
 
 function countEvents() {
 	var xmlhttp = new XMLHttpRequest();
@@ -56,49 +59,53 @@ function createEvent() {
 }
 
 function startAnimations(i) {
-	console.log("atart of animation " + i);
 	setInterval(function() {
     	betta = beta;
     	aalpha = alpha;
-    	findTheClosestEvent();
     	animateDiv(betta, aalpha, i);
     	}, 500);
 }
 
 function findTheClosestEvent() {
-	var aaalpha = alpha;
-	var minDistance = 360;
-	var min;
-	var min1 = 360;
-	var min2 = 360;
-	var closest;
-	var i;
-	for (i = 0; i < counter; i++) {
-		if (aaaplha > 180) {
-			min1 = Math.abs(aaalpha - theta[i]); 
-			min2 = Math.abs(aaalpha - 360 - theta[i]);
-			min = Math.min(min1, min2);
-			if (Math.abs(theta[i]-min)) {
-				minDistance = min;
-				closest = i;
+	setInterval(function() {
+		console.log("closest is " + closest);
+		var source = alpha;
+		var minDistance = 360;
+		var min;
+		var i;
+		for (i = 0; i < counter; i++) {
+			if (source < theta[i] && theta[i] - source < 180) {
+				min = theta[i] - source;
+				if (min < minDistance) {
+					minDistance = min;
+					closest = i;
+				}
+			} else if (theta[i] < source && source - theta[i] < 180) {
+				min = source - theta[i];
+				if (min < minDistance) {
+					minDistance = min;
+					closest = i;
+				}
+			} else if (source < theta[i] && theta[i] - source > 180) {
+				min = 360 - theta[i] + source;
+				if (min < minDistance) {
+					minDistance = min;
+					closest = i;
+				}
+			} else if (theta[i] < source && source - theta[i] > 180) {
+				min = 360 - source + theta[i];
+				if (min < minDistance) {
+					minDistance = min;
+					closest = i;
+				}
 			}
-		} else {
-			min1 = Math.abs(aaalpha - theta[i]); 
-			min2 = Math.abs(aaalpha + 360 - theta[i]);
-			if (Math.abs(theta[i]-min)) {
-				minDistance = min;
-				closest = i;
-			}
+			
 		}
-		
-	}
-	console.log("closest is " + closest);
-	return closest;
+		console.log("closest is " + closest);
+	}, 500);
 }
 
 function makeNewPosition(betta, aalpha, i){
-	
-	console.log("1st make new pos " + i);
     
     var h = $(window).height() - 150;
     var w = $(window).width() - 100;
@@ -192,18 +199,13 @@ function makeNewPosition(betta, aalpha, i){
     	hideIcon(i);
     }
     
-    console.log("2nd make new pos " + i);
-    
     return [nh,nw];   
-    
-    
     
 }
 
 function animateDiv(betta, aalpha, i){
     var newq = makeNewPosition(betta, aalpha, i);
     var icon = '#icon' + i;
-    console.log("animate " + i)
     $(icon).animate({ top: newq[0], left: newq[1] });
     
 };
@@ -266,6 +268,7 @@ function getLocation() {
 	        // run when condition is met
 	    	if (navigator.geolocation) {
 	            navigator.geolocation.getCurrentPosition(showPosition);
+	            findTheClosestEvent();
 	        } else { 
 	            x.innerHTML = "Geolocation is not supported by this browser.";
 	        }
