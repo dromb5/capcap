@@ -60,20 +60,38 @@ function startAnimations(i) {
 	setInterval(function() {
     	betta = beta;
     	aalpha = alpha;
+    	findTheClosestEvent(aalpha);
     	animateDiv(betta, aalpha, i);
     	}, 500);
 }
 
-function findTheClosestEvent(aalpha) {
+function findTheClosestEvent(aaalpha) {
 	var minDistance = 360;
+	var min;
+	var min1 = 360;
+	var min2 = 360;
 	var closest;
 	var i;
 	for (i = 0; i < counter; i++) {
-		if (Math.abs(theta[i]-aalpha)) {
-			minDistance = theta[i]-aalpha;
-			closest = i;
+		if (aaaplha > 180) {
+			min1 = Math.abs(aaalpha - theta[i]); 
+			min2 = Math.abs(aaalpha - 360 - theta[i]);
+			min = Math.min(min1, min2);
+			if (Math.abs(theta[i]-min)) {
+				minDistance = min;
+				closest = i;
+			}
+		} else {
+			min1 = Math.abs(aaalpha - theta[i]); 
+			min2 = Math.abs(aaalpha + 360 - theta[i]);
+			if (Math.abs(theta[i]-min)) {
+				minDistance = min;
+				closest = i;
+			}
 		}
+		
 	}
+	console.log("closest is " + closest);
 	return closest;
 }
 
