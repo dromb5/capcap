@@ -33,7 +33,7 @@ function createEvent() {
 	    if(myObj != null){
 	        // run when condition is met
 	    	var i;
-	    	for (i = 0; i < 1; i++) { //TODO: 1 should be changed to counter
+	    	for (i = 0; i < counter; i++) { //TODO: 1 should be changed to counter
 	    		var div = document.createElement('div');
 	    		var eventType;
 	            eventType = myObj.events[i].eventType;
@@ -41,12 +41,9 @@ function createEvent() {
 	        	div.setAttribute('id', 'icon' + i);
 	        	div.setAttribute('class', 'icon');
 	        	var eventNumber = i;
-	        	setInterval(function() {
-	            	betta = beta;
-	            	aalpha = alpha;
-	            	animateDiv(betta, aalpha, eventNumber);
-	            	}, 500);
+	        	console.log("Starte no " + eventNumber);
 	    		document.body.appendChild(div);
+	    		startAnimations(eventNumber);
 	    	}
 	    }
 	    else {
@@ -58,7 +55,31 @@ function createEvent() {
 	
 }
 
+function startAnimations(i) {
+	console.log("atart of animation " + i);
+	setInterval(function() {
+    	betta = beta;
+    	aalpha = alpha;
+    	animateDiv(betta, aalpha, i);
+    	}, 500);
+}
+
+function findTheClosestEvent(aalpha) {
+	var minDistance = 360;
+	var closest;
+	var i;
+	for (i = 0; i < counter; i++) {
+		if (Math.abs(theta[i]-aalpha)) {
+			minDistance = theta[i]-aalpha;
+			closest = i;
+		}
+	}
+	return closest;
+}
+
 function makeNewPosition(betta, aalpha, i){
+	
+	console.log("1st make new pos " + i);
     
     var h = $(window).height() - 150;
     var w = $(window).width() - 100;
@@ -149,17 +170,21 @@ function makeNewPosition(betta, aalpha, i){
     		var nw = Math.floor(0.9 * w);
     	}
     } else {
-    	var nh = Math.floor(1 * h);
-    	var nw = Math.floor(1 * w);
+    	hideIcon(i);
     }
     
-    return [nh,nw];    
+    console.log("2nd make new pos " + i);
+    
+    return [nh,nw];   
+    
+    
     
 }
 
 function animateDiv(betta, aalpha, i){
     var newq = makeNewPosition(betta, aalpha, i);
     var icon = '#icon' + i;
+    console.log("animate " + i)
     $(icon).animate({ top: newq[0], left: newq[1] });
     
 };
@@ -178,12 +203,18 @@ function moveUp(betta, aalpha){
 
 function hideIcon(i) {
 	var x = document.getElementById("icon" + i);
-	x.style.display = "none";
+	if (x.style.display != "none"){
+		x.style.display = "none";
+		console.log("hide icon " + i);
+	}
 }
 
 function showIcon(i) {
 	var x = document.getElementById("icon" + i);
-	x.style.display = "block";
+	if (x.style.display != "block"){
+		x.style.display = "block";
+		console.log("show icon " + i);
+	}
 }
 
 function hideDownArrow() {
