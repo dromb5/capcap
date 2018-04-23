@@ -60,12 +60,13 @@ function startAnimations(i) {
 	setInterval(function() {
     	betta = beta;
     	aalpha = alpha;
-    	findTheClosestEvent(aalpha);
+    	findTheClosestEvent();
     	animateDiv(betta, aalpha, i);
     	}, 500);
 }
 
-function findTheClosestEvent(aaalpha) {
+function findTheClosestEvent() {
+	var aaalpha = alpha;
 	var minDistance = 360;
 	var min;
 	var min1 = 360;
