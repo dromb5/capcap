@@ -41,7 +41,7 @@ function createEvent() {
 		xmlhttp.onreadystatechange = function() {
 		    if (this.readyState == 4 && this.status == 200) {
 		        var myObj = JSON.parse(this.responseText);
-		        eventType = myObj.events[i].eventType;
+		        eventType = myObj.events[i-1].eventType;
 		        div.innerHTML = "<i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon\"></i>" + counter;
 		    	div.setAttribute('id', 'icon');
 		    	div.setAttribute('class', 'icon');
