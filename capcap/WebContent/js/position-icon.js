@@ -19,7 +19,7 @@ var myObj;
 
 var closest;
 
-var visible;
+var visible = [];
 
 function countEvents() {
 	var xmlhttp = new XMLHttpRequest();
@@ -113,7 +113,8 @@ function findTheClosestEvent() {
 			
 		}
 		console.log("closest is " + closest);
-		if (!visible) {
+		console.log(visible.every(isNotVisible))
+		if (visible.every(isNotVisible) == true) {
 			if (clockwise) {
 				showLeftArrow();
 				hideRightArrow();
@@ -126,6 +127,14 @@ function findTheClosestEvent() {
 			hideRightArrow();
 		}
 	}, 500);
+}
+
+function isNotVisible(visible) {
+	if (visible == false) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function showLeftArrow() {
@@ -238,10 +247,8 @@ function makeNewPosition(betta, aalpha, i){
     	} else if (aalpha - theta[i] > 8 && aalpha - theta[i] <= 10) {
     		var nw = Math.floor(0.9 * w);
     	}
-    	visible = true;
     } else {
     	hideIcon(i);
-    	visible = false;
     }
     
     return [nh,nw];   
@@ -272,6 +279,7 @@ function hideIcon(i) {
 	if (x.style.display != "none"){
 		x.style.display = "none";
 		console.log("hide icon " + i);
+		visible[i] = false;
 	}
 }
 
@@ -280,6 +288,7 @@ function showIcon(i) {
 	if (x.style.display != "block"){
 		x.style.display = "block";
 		console.log("show icon " + i);
+		visible[i] = true;
 	}
 }
 
@@ -366,7 +375,7 @@ function init() {
                 + '<br />abs: ' + abs + '<br />theta: ' + theta;
               */
             }, true);
-    }
+    }    
     /*
     // Check for support for DeviceMotion events
     if(window.DeviceMotionEvent) {

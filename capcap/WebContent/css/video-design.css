@@ -58,21 +58,28 @@ div.upicon {
 }
 
 div.lefticon {
-	display: block;
-    float: left;
+	height: 60px;
+	width: 60px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
 }
 
 div.righticon {
-	display: block;
-    float: right;
-    position: relative;
-	top: 50%;
-	transform: translateY(50%);
+	height: 60px;
+	width: 60px;
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
 }
 
-div.container {
+.container {
 	position: relative;
-  	height: 100%;
+	height: 100vh;
 }
 
 #fire-icon {
@@ -80,11 +87,11 @@ div.container {
 }
 
 #tint-icon {
-	color:blue;
+	color:0d0dbf;
 }
 
 #rss-icon {
-	color:red;
+	color:#ff8000;
 }
 
 
