@@ -9,18 +9,22 @@
 	</head>
 	<body onload="init(); getLocation(); createEvent();">
 		<div id="camera-container">
-    		<video id="video" width="640" height="480" autoplay></video>
+    		<video id="video" width="0" height="0" autoplay></video>
     	</div>
-    	<div id="upicon" class='upicon'>
-    		<i class="fas fa-arrow-alt-circle-up fa-7x" id="up-icon"></i>
-    	</div>
-    	<div id="downicon" class='downicon'>
-    		<i class="fas fa-arrow-alt-circle-down fa-7x" id="down-icon"></i>
-    	</div>
-    	<div id="JSONLatitude"></div>
-    	<div id="JSONLongitude"></div>
-    	<div id="eventType"></div>
-    	<p id="demo"></p>
+	    <div class="container">
+	    	<div id="upicon" class='upicon'>
+	    		<i class="fas fa-arrow-alt-circle-up fa-7x" id="up-icon"></i>
+	    	</div>
+	    	<div id="downicon" class='downicon'>
+	    		<i class="fas fa-arrow-alt-circle-down fa-7x" id="down-icon"></i>
+	    	</div>
+	    	<div id="lefticon" class='lefticon'>
+	    		<i class="fas fa-arrow-alt-circle-left fa-7x" id="left-icon"></i>
+	    	</div>
+	    	<div id="righticon" class='righticon'>
+	    		<i class="fas fa-arrow-alt-circle-right fa-7x" id="right-icon"></i>
+	    	</div>
+	    </div>
     	<script type="text/javascript" src="js/fulltilt-min.js"></script>
 		<script type="text/javascript" src="js/show-video.js"></script>
 		<script type="text/javascript" src="js/parse-json.js"></script>

@@ -57,7 +57,33 @@ div.upicon {
   	margin: 0 auto;
 }
 
+div.lefticon {
+	display: block;
+    float: left;
+}
+
+div.righticon {
+	display: block;
+    float: right;
+    position: relative;
+	top: 50%;
+	transform: translateY(50%);
+}
+
+div.container {
+	position: relative;
+  	height: 100%;
+}
+
 #fire-icon {
+	color:red;
+}
+
+#tint-icon {
+	color:blue;
+}
+
+#rss-icon {
 	color:red;
 }
 

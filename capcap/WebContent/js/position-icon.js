@@ -1,4 +1,5 @@
 var alpha;
+var alpha_new;
 var beta;
 var gamma;
 var betta;
@@ -17,6 +18,8 @@ var counter;
 var myObj;
 
 var closest;
+
+var visible;
 
 function countEvents() {
 	var xmlhttp = new XMLHttpRequest();
@@ -69,9 +72,13 @@ function startAnimations(i) {
 function findTheClosestEvent() {
 	setInterval(function() {
 		console.log("closest is " + closest);
+		console.log("alpha: " + alpha);
+		console.log("alpha_new: " + alpha_new);
+		console.log(visible);
 		var source = alpha;
 		var minDistance = 360;
 		var min;
+		var clockwise;
 		var i;
 		for (i = 0; i < counter; i++) {
 			if (source < theta[i] && theta[i] - source < 180) {
@@ -79,30 +86,66 @@ function findTheClosestEvent() {
 				if (min < minDistance) {
 					minDistance = min;
 					closest = i;
+					clockwise = true;
 				}
 			} else if (theta[i] < source && source - theta[i] < 180) {
 				min = source - theta[i];
 				if (min < minDistance) {
 					minDistance = min;
 					closest = i;
+					clockwise = false;
 				}
 			} else if (source < theta[i] && theta[i] - source > 180) {
 				min = 360 - theta[i] + source;
 				if (min < minDistance) {
 					minDistance = min;
 					closest = i;
+					clockwise = false;
 				}
 			} else if (theta[i] < source && source - theta[i] > 180) {
 				min = 360 - source + theta[i];
 				if (min < minDistance) {
 					minDistance = min;
 					closest = i;
+					clockwise = true;
 				}
 			}
 			
 		}
 		console.log("closest is " + closest);
+		if (!visible) {
+			if (clockwise) {
+				showLeftArrow();
+				hideRightArrow();
+			} else {
+				showRightArrow();
+				hideLeftArrow();
+			}
+		} else {
+			hideLeftArrow();
+			hideRightArrow();
+		}
 	}, 500);
+}
+
+function showLeftArrow() {
+	var x = document.getElementById("lefticon");
+	x.style.display = "block";
+}
+
+function showRightArrow() {
+	var x = document.getElementById("righticon");
+	x.style.display = "block";
+}
+
+function hideLeftArrow() {
+	var x = document.getElementById("lefticon");
+	x.style.display = "none";
+}
+
+function hideRightArrow() {
+	var x = document.getElementById("righticon");
+	x.style.display = "none";
 }
 
 function makeNewPosition(betta, aalpha, i){
@@ -195,8 +238,10 @@ function makeNewPosition(betta, aalpha, i){
     	} else if (aalpha - theta[i] > 8 && aalpha - theta[i] <= 10) {
     		var nw = Math.floor(0.9 * w);
     	}
+    	visible = true;
     } else {
     	hideIcon(i);
+    	visible = false;
     }
     
     return [nh,nw];   
@@ -315,9 +360,11 @@ function init() {
               beta = event.beta;
               gamma = event.gamma;
               var abs = event.absolute;
+              /*
               if(alpha!=null || beta!=null || gamma!=null) 
                 dataContainerOrientation.innerHTML = 'alpha: ' + alpha + '<br/>beta: ' + beta + '<br />gamma: ' + gamma
                 + '<br />abs: ' + abs + '<br />theta: ' + theta;
+              */
             }, true);
     }
     /*
@@ -345,7 +392,8 @@ var promise = FULLTILT.getDeviceOrientation({ 'type': 'world' });
 var dataContainerMotions = document.getElementById('dataContainerMotion');
 if ('ondeviceorientationabsolute' in window) {
 	window.addEventListener('deviceorientationabsolute', function(event) {
-		dataContainerMotions.innerHTML = 'alpha: ' + event.alpha + '<br/>beta: ' + event.beta + '<br />gamma: ' + event.gamma + '<br />abs: ' + event.absolute;
+		alpha_new = event.alpha;
+		//dataContainerMotions.innerHTML = 'alpha: ' + event.alpha + '<br/>beta: ' + event.beta + '<br />gamma: ' + event.gamma + '<br />abs: ' + event.absolute;
 	}, true);
 	} else if ('ondeviceorientation' in window) {
 		dataContainerMotions.innerHTML = 'not';
