@@ -64,7 +64,7 @@ function createEvent() {
 function startAnimations(i) {
 	setInterval(function() {
     	betta = beta;
-    	aalpha = alpha;
+    	aalpha = alpha_new;
     	animateDiv(betta, aalpha, i);
     	}, 500);
 }
@@ -75,7 +75,7 @@ function findTheClosestEvent() {
 		console.log("alpha: " + alpha);
 		console.log("alpha_new: " + alpha_new);
 		console.log(visible);
-		var source = alpha;
+		var source = alpha_new;
 		var minDistance = 360;
 		var min;
 		var clockwise;
