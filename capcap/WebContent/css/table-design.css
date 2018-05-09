@@ -43,6 +43,7 @@ h1 {
 }
 tr:nth-child(even){background-color: black}
 
+
 .loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;
