@@ -36,14 +36,19 @@ function countEvents() {
 function createEvent() {
 	countEvents();
 	var check = function(){
-	    if(myObj != null){
+	    if(myObj != null && latitude != null && longitude != null){
 	        // run when condition is met
 	    	var i;
-	    	for (i = 0; i < counter; i++) { //TODO: 1 should be changed to counter
+	    	for (i = 0; i < counter; i++) {
 	    		var div = document.createElement('div');
 	    		var eventType;
 	            eventType = myObj.events[i].eventType;
-	            div.innerHTML = "<i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon\"></i>";
+	            /*
+	            var eventLatitude = myObj.events[i].latitude;
+	            var eventLongitude = myObj.events[i].longitude;
+	            var distance = getDistanceBetweenCoordinates(latitude, longitude, eventLatitude, eventLongitude);
+	            */
+	            div.innerHTML = "<i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon\"></i>"/* + distance */;
 	        	div.setAttribute('id', 'icon' + i);
 	        	div.setAttribute('class', 'icon');
 	        	var eventNumber = i;
@@ -395,6 +400,22 @@ function init() {
     
     
   }
+
+function getDistanceBetweenCoordinates(lat1, lon1, lat2, lon2) {
+	var R = 6371e3; // metres
+	var φ1 = lat1.toRadians();
+	var φ2 = lat2.toRadians();
+	var Δφ = (lat2-lat1).toRadians();
+	var Δλ = (lon2-lon1).toRadians();
+
+	var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+	        Math.cos(φ1) * Math.cos(φ2) *
+	        Math.sin(Δλ/2) * Math.sin(Δλ/2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+	var d = R * c;
+	return d;
+}
 
 
 var promise = FULLTILT.getDeviceOrientation({ 'type': 'world' });
