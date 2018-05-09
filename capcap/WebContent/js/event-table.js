@@ -17,6 +17,7 @@ function fillTable() {
 	countEvents();
 	var check = function(){
 	    if(myObj != null){
+	    	document.getElementsByClassName('loader')[0].style.visibility = 'hidden';
 	    	var i;
 	    	var table = document.getElementById("table");
 	    	for (i = 0; i < counter; i++) {
@@ -28,10 +29,9 @@ function fillTable() {
 	    	    cell1.innerHTML = myObj.events[i].eventType;
 	    	    cell2.innerHTML = myObj.events[i].latitude;
 	    	    cell3.innerHTML = myObj.events[i].longitude;
-	    	    var a = document.createElement("a");
-	    	    a.setAttribute("href", "https://www.google.com/maps/?q=" + latitude + "," + longitude);
-	    	    a.innerHTML = "map";
-	    	    cell3.innerHTML = a;
+	    	    var href = "https://www.google.com/maps/?q=" + myObj.events[i].latitude + "," + myObj.events[i].longitude;
+	    	    var icon = "<i class=\"fas fa-map\"></i>";
+	    	    cell4.innerHTML = "<a href=" + href + ">" + icon + "</a>";
 	    	}
 	    }
 	    else {
