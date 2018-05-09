@@ -29,7 +29,7 @@ function fillTable() {
 	    	    cell2.innerHTML = myObj.events[i].latitude;
 	    	    cell3.innerHTML = myObj.events[i].longitude;
 	    	    var a = document.createElement("a");
-	    	    a.setAttribute("href", "https://www.google.com/maps/?q=" + latitude + "," + longitude);
+	    	    a.href = "https://www.google.com/maps/?q=" + latitude + "," + longitude;
 	    	    a.innerHTML = "map";
 	    	    cell3.innerHTML = a;
 	    	}
