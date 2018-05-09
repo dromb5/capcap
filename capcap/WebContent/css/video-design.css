@@ -35,10 +35,11 @@ body {
 }
 
 div.icon {
-	width: 50px;
-	height:50px;
+	width: 300px;
+	height: 300px;
 	position:fixed;
 	display:none;
+	text-align: center;
 }
 
 div.downicon {
@@ -84,14 +85,27 @@ div.righticon {
 
 #fire-icon {
 	color:red;
+	text-align: center;
 }
 
 #tint-icon {
-	color:0d0dbf;
+	color: blue;
+	text-align: center;
 }
 
 #rss-icon {
 	color:#ff8000;
+	text-align: center;
 }
 
+#distance {
+	font-size: 70px;
+	font-weight: bold;
+	text-align: center;
+	color: black;
+}
 
+a {
+	text-decoration:none;
+	text-align: center;
+}

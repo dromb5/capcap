@@ -1,3 +1,4 @@
+//variables for retrieving data from motion sensors
 var alpha;
 var alpha_new;
 var beta;
@@ -6,21 +7,32 @@ var betta;
 var aalpha;
 var aaalpha;
 
+//coordinates which determines users position
 var latitude;
 var longitude;
 
 var heading;
 
+//array of angles between event and orientation of phone, for each event
 var theta = [];
 
+//number of events
 var counter;
 
+//JSON object with events
 var myObj;
 
+//closest event depending on angle
 var closest;
 
+//array of events. If event is visible, array[i] displays true, otherwise false
 var visible = [];
 
+/*
+ * Function for counting total number of events.
+ * JSON file is read from server and placed to variable myObj.
+ * Number of events is places to variable counter.
+ */
 function countEvents() {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
@@ -33,26 +45,43 @@ function countEvents() {
 	xmlhttp.send();
 }
 
+/*
+ * Function creates particular events.
+ * If there are 5 different events, 5 different divs will be created then.
+ * Beside creating, this function also starts animation of event icons.
+ */
 function createEvent() {
+	//loading of JSON file and counting events
 	countEvents();
+	/*
+	 * It takes time to retrieve JSON file from server and to get user location coordinates.
+	 * Because of that, it's necessary to check if JSON file and coordinates are retrieved, by checking their variable values.
+	 * If values are null, function will try to execute again in 500ms, until it succeed.
+	 */
 	var check = function(){
 	    if(myObj != null && latitude != null && longitude != null){
-	        // run when condition is met
 	    	var i;
 	    	for (i = 0; i < counter; i++) {
 	    		var div = document.createElement('div');
 	    		var eventType;
 	            eventType = myObj.events[i].eventType;
-	            /*
 	            var eventLatitude = myObj.events[i].latitude;
 	            var eventLongitude = myObj.events[i].longitude;
 	            var distance = getDistanceBetweenCoordinates(latitude, longitude, eventLatitude, eventLongitude);
-	            */
-	            div.innerHTML = "<i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon\"></i>"/* + distance */;
+	            distance = formatDistance(distance);
+	            var href = "https://www.google.com/maps/?q=" + myObj.events[i].latitude + "," + myObj.events[i].longitude;
+	            /*
+	             * It's necessary to have <a> tag inside <div>.
+	             * <a> tag is required because of hyperlink, which redirects to specific point in Google Maps.
+	             * Distance in kilometers is placed above event icon, everything is wrapped inside <a> tag, 
+	             * and <a> tag is wrapped inside div. 
+	             */
+	            div.innerHTML = "<a href=\"" + href + "\"><div id=\"distance\">" + distance + " km"
+	            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon\"></i></a>";
 	        	div.setAttribute('id', 'icon' + i);
 	        	div.setAttribute('class', 'icon');
 	        	var eventNumber = i;
-	        	console.log("Starte no " + eventNumber);
+	        	
 	    		document.body.appendChild(div);
 	    		startAnimations(eventNumber);
 	    	}
@@ -61,30 +90,47 @@ function createEvent() {
 	        setTimeout(check, 500); // check again in a second
 	    }
 	}
-
 	check();
-	
 }
 
+/*
+ * Event wrapped inside of div is animated every 1s.
+ */
 function startAnimations(i) {
 	setInterval(function() {
     	betta = beta;
-    	aalpha = alpha_new;
+    	aalpha = alpha;
     	animateDiv(betta, aalpha, i);
-    	}, 500);
+    	}, 1000);
 }
 
+/*
+ * Div is animated.
+ */
+function animateDiv(betta, aalpha, i){
+    var newq = makeNewPosition(betta, aalpha, i);
+    var icon = '#icon' + i;
+    $(icon).animate({ top: newq[0], left: newq[1] });
+    
+};
+
+/*
+ * Function which finds closest event depending on angles.
+ * This is necessary because if there are no icons on the screen, arrow must be shown on the left or right side,
+ * so user could see if he needs to rotate find to left or right to find the closest event.
+ */
 function findTheClosestEvent() {
 	setInterval(function() {
 		console.log("closest is " + closest);
 		console.log("alpha: " + alpha);
 		console.log("alpha_new: " + alpha_new);
 		console.log(visible);
-		var source = alpha_new;
+		var source = alpha;
 		var minDistance = 360;
 		var min;
 		var clockwise;
 		var i;
+		//there are 4 different situations to determine if closest event is clockwise or counterclockwise.
 		for (i = 0; i < counter; i++) {
 			if (source < theta[i] && theta[i] - source < 180) {
 				min = theta[i] - source;
@@ -119,6 +165,11 @@ function findTheClosestEvent() {
 		}
 		console.log("closest is " + closest);
 		console.log(visible.every(isNotVisible))
+		/*
+		 * If there are no events displayed on the screen, left/right arrow must be placed on the screen,
+		 * according to the closest event
+		 */
+		
 		if (visible.every(isNotVisible) == true) {
 			if (clockwise) {
 				showLeftArrow();
@@ -134,34 +185,11 @@ function findTheClosestEvent() {
 	}, 500);
 }
 
-function isNotVisible(visible) {
-	if (visible == false) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-function showLeftArrow() {
-	var x = document.getElementById("lefticon");
-	x.style.display = "block";
-}
-
-function showRightArrow() {
-	var x = document.getElementById("righticon");
-	x.style.display = "block";
-}
-
-function hideLeftArrow() {
-	var x = document.getElementById("lefticon");
-	x.style.display = "none";
-}
-
-function hideRightArrow() {
-	var x = document.getElementById("righticon");
-	x.style.display = "none";
-}
-
+/*
+ * Function for generating new position on the screen for a certain event, according to the orientation of the screen.
+ * Betta angle determines vertical orientation. 
+ * Difference between theta and alpha determines horizontal orientation.
+ */
 function makeNewPosition(betta, aalpha, i){
     
     var h = $(window).height() - 150;
@@ -254,18 +282,101 @@ function makeNewPosition(betta, aalpha, i){
     	}
     } else {
     	hideIcon(i);
-    }
-    
-    return [nh,nw];   
-    
+    }  
+    return [nh,nw];    
 }
 
-function animateDiv(betta, aalpha, i){
-    var newq = makeNewPosition(betta, aalpha, i);
-    var icon = '#icon' + i;
-    $(icon).animate({ top: newq[0], left: newq[1] });
+/*
+ * Function which is constantly reading data from device sensors and putting them to global variables.
+ * Second part is in comments because it reads with different API, not necessary at this moment.
+ */
+function init() {
+    //Find our div containers in the DOM
+    var dataContainerOrientation = document.getElementById('dataContainerOrientation');
+    var dataContainerMotion = document.getElementById('dataContainerMotion');
     
-};
+    //Check for support for DeviceOrientation event
+    if(window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', function(event) {
+              alpha = event.alpha;
+              beta = event.beta;
+              gamma = event.gamma;
+              var abs = event.absolute;
+              /*
+              if(alpha!=null || beta!=null || gamma!=null) 
+                dataContainerOrientation.innerHTML = 'alpha: ' + alpha + '<br/>beta: ' + beta + '<br />gamma: ' + gamma
+                + '<br />abs: ' + abs + '<br />theta: ' + theta;
+              */
+            }, true);
+    }    
+    
+    /*
+    // Check for support for DeviceMotion events
+    if(window.DeviceMotionEvent) {
+    window.addEventListener('devicemotion', function(event) {
+              alpha = event.accelerationIncludingGravity.x;
+              beta = event.accelerationIncludingGravity.y;
+              gamma = event.accelerationIncludingGravity.z;
+              var r = event.rotationRate;
+              var html = 'Acceleration:<br />';
+              html += 'x: ' + x +'<br />y: ' + y + '<br/>z: ' + z+ '<br />';
+              html += 'Rotation rate:<br />';
+              if(r!=null) html += 'alpha: ' + r.alpha +'<br />beta: ' + r.beta + '<br/>gamma: ' + r.gamma + '<br />';
+              dataContainerMotion.innerHTML = html;                  
+            });
+    }
+    */   
+}
+
+/*
+ * Function which formats distance to pretty format. If {
+ * - 0 <= distance < 10 :: 4.78 km
+ * - 10 =< distance < 100 :: 56.9 km
+ * - else :: 234 km
+ * }
+ */
+function formatDistance(distance) {
+	distance /= 1000;
+	if (distance < 10) {
+		distance = Math.round(distance * 100) / 100;
+	} else if (distance >= 10 && distance < 100) {
+		distance = Math.round(distance * 10) / 10;
+	} else {
+		distance = Math.round(distance);
+	}
+	return distance;
+}
+
+/*
+ * Function return true if event is NOT visible on the screen.
+ */
+function isNotVisible(visible) {
+	if (visible == false) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function showLeftArrow() {
+	var x = document.getElementById("lefticon");
+	x.style.display = "block";
+}
+
+function showRightArrow() {
+	var x = document.getElementById("righticon");
+	x.style.display = "block";
+}
+
+function hideLeftArrow() {
+	var x = document.getElementById("lefticon");
+	x.style.display = "none";
+}
+
+function hideRightArrow() {
+	var x = document.getElementById("righticon");
+	x.style.display = "none";
+}
 
 function moveDown(betta, aalpha){
     var newq = makeNewPosition(betta, aalpha);
@@ -279,6 +390,9 @@ function moveUp(betta, aalpha){
     
 };
 
+/*
+ * Function for hiding certain icon if it shouldn't be visible anymore.
+ */
 function hideIcon(i) {
 	var x = document.getElementById("icon" + i);
 	if (x.style.display != "none"){
@@ -288,6 +402,9 @@ function hideIcon(i) {
 	}
 }
 
+/*
+ * Function for showing certain icon if it should be visible.
+ */
 function showIcon(i) {
 	var x = document.getElementById("icon" + i);
 	if (x.style.display != "block"){
@@ -321,6 +438,22 @@ function calcAngleDegrees(x, y) {
 	  return Math.atan2(y, x) * 180 / Math.PI;
 }
 
+function getDistanceBetweenCoordinates(lat1, lon1, lat2, lon2) {
+	var R = 6371e3; // metres
+	var φ1 = toRadians(lat1);
+	var φ2 = toRadians(lat2);
+	var Δφ = toRadians(lat2-lat1);
+	var Δλ = toRadians(lon2-lon1);
+
+	var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+	        Math.cos(φ1) * Math.cos(φ2) *
+	        Math.sin(Δλ/2) * Math.sin(Δλ/2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+	var d = R * c;
+	return d;
+}
+
 function getLocation() {
 	var check = function(){
 	    if(myObj != null){
@@ -336,9 +469,7 @@ function getLocation() {
 	        setTimeout(check, 500); // check again in a second
 	    }
 	}
-
-	check();
-    
+	check();   
 }
 
 function showPosition(position) {
@@ -362,62 +493,17 @@ function showPosition(position) {
     
 }
 
-function init() {
-    //Find our div containers in the DOM
-    var dataContainerOrientation = document.getElementById('dataContainerOrientation');
-    var dataContainerMotion = document.getElementById('dataContainerMotion');
-    
-    //Check for support for DeviceOrientation event
-    if(window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', function(event) {
-              alpha = event.alpha;
-              beta = event.beta;
-              gamma = event.gamma;
-              var abs = event.absolute;
-              /*
-              if(alpha!=null || beta!=null || gamma!=null) 
-                dataContainerOrientation.innerHTML = 'alpha: ' + alpha + '<br/>beta: ' + beta + '<br />gamma: ' + gamma
-                + '<br />abs: ' + abs + '<br />theta: ' + theta;
-              */
-            }, true);
-    }    
-    /*
-    // Check for support for DeviceMotion events
-    if(window.DeviceMotionEvent) {
-    window.addEventListener('devicemotion', function(event) {
-              alpha = event.accelerationIncludingGravity.x;
-              beta = event.accelerationIncludingGravity.y;
-              gamma = event.accelerationIncludingGravity.z;
-              var r = event.rotationRate;
-              var html = 'Acceleration:<br />';
-              html += 'x: ' + x +'<br />y: ' + y + '<br/>z: ' + z+ '<br />';
-              html += 'Rotation rate:<br />';
-              if(r!=null) html += 'alpha: ' + r.alpha +'<br />beta: ' + r.beta + '<br/>gamma: ' + r.gamma + '<br />';
-              dataContainerMotion.innerHTML = html;                  
-            });
-    }
-    */
-    
-    
-  }
-
-function getDistanceBetweenCoordinates(lat1, lon1, lat2, lon2) {
-	var R = 6371e3; // metres
-	var φ1 = lat1.toRadians();
-	var φ2 = lat2.toRadians();
-	var Δφ = (lat2-lat1).toRadians();
-	var Δλ = (lon2-lon1).toRadians();
-
-	var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-	        Math.cos(φ1) * Math.cos(φ2) *
-	        Math.sin(Δλ/2) * Math.sin(Δλ/2);
-	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-	var d = R * c;
-	return d;
+function toRadians(degrees)
+{
+  var pi = Math.PI;
+  return degrees * (pi/180);
 }
 
+/*
+ * This part is not used at the moment; it reads data from sensors with FULLTILT API.
+ */
 
+/*
 var promise = FULLTILT.getDeviceOrientation({ 'type': 'world' });
 var dataContainerMotions = document.getElementById('dataContainerMotion');
 if ('ondeviceorientationabsolute' in window) {
@@ -428,6 +514,12 @@ if ('ondeviceorientationabsolute' in window) {
 	} else if ('ondeviceorientation' in window) {
 		dataContainerMotions.innerHTML = 'not';
 	}
+*/
+
+/*
+ * ----------------- This part of code may be used later -----------------
+ */
+
 /*
 // Wait for Promise result
 promise.then(function(deviceOrientation) { // Device Orientation Events are supported
