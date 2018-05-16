@@ -1,6 +1,16 @@
+/*
+ * Script which fills the empty table on EventsList.html file.
+ * Table is filled with the data from JSON file.
+ */
+
 var myObj;
 var counter;
 
+/*
+ * Function for counting total number of events.
+ * JSON file is read from server and placed to variable myObj.
+ * Number of events is places to variable counter.
+ */
 function countEvents() {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
@@ -13,6 +23,9 @@ function countEvents() {
 	xmlhttp.send();
 }
 
+/*
+ * Function which fills the table with data from JSON file.
+ */
 function fillTable() {
 	countEvents();
 	var check = function(){
@@ -29,6 +42,11 @@ function fillTable() {
 	    	    cell1.innerHTML = myObj.events[i].eventType;
 	    	    cell2.innerHTML = myObj.events[i].latitude;
 	    	    cell3.innerHTML = myObj.events[i].longitude;
+	    	    /*
+	    	     * Last cell displays icon of a map.
+	    	     * Click on icon will forward user to the Google Maps, and open a marker on a specific location.
+	    	     * That location is set up in href variable.
+	    	     */
 	    	    var href = "https://www.google.com/maps/?q=" + myObj.events[i].latitude + "," + myObj.events[i].longitude;
 	    	    var icon = "<i class=\"fas fa-map\"></i>";
 	    	    cell4.innerHTML = "<a href=" + href + ">" + icon + "</a>";

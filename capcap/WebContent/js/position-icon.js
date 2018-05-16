@@ -1,3 +1,11 @@
+/*
+ * One of the main parts of this app is AR view.
+ * This script is doing several different things.
+ * At first, it opens JSON file with the events.
+ * Second, it creates icons of events and put them on a screen, or hide them if they are not in the visible spectre.
+ * At last, it animates icons according to the heading of the phone. 
+ */
+
 //variables for retrieving data from motion sensors
 var alpha;
 var alpha_new;

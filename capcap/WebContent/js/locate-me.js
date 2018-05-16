@@ -1,3 +1,7 @@
+/*
+ * Script for getting current user location.
+ */
+
 var x = document.getElementById("location");
 
 function getLocation() {

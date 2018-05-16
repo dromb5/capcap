@@ -1,3 +1,7 @@
+/*
+ * Script for getting access to the camera, and showing camera viewfinder on the screen.
+ */
+
 var video = document.getElementById('video');
 
 // Get access to the camera!
@@ -23,13 +27,6 @@ if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         video.play();
     }, errBack);
 }
-//var canvas = document.getElementById('canvas');
-//var context = canvas.getContext('2d');
-
-// Trigger photo take
-//document.getElementById("snap").addEventListener("click", function() {
-//	context.drawImage(video, 0, 0, 640, 480);
-//});
 
 if (video.requestFullscreen) {
   video.requestFullscreen();
