@@ -36,6 +36,11 @@ var closest;
 //array of events. If event is visible, array[i] displays true, otherwise false
 var visible = [];
 
+//clustering events
+var grouped = [];
+
+var thetaGrouped;
+
 /*
  * Function for counting total number of events.
  * JSON file is read from server and placed to variable myObj.
@@ -49,7 +54,7 @@ function countEvents() {
 	        counter = Object.keys(myObj.events).length;
 	    }
 	};
-	xmlhttp.open("GET", "https://api.myjson.com/bins/cs7tf", true);
+	xmlhttp.open("GET", "https://api.myjson.com/bins/9qodu", true);
 	xmlhttp.send();
 }
 
@@ -129,10 +134,6 @@ function animateDiv(betta, aalpha, i){
  */
 function findTheClosestEvent() {
 	setInterval(function() {
-		console.log("closest is " + closest);
-		console.log("alpha: " + alpha);
-		console.log("alpha_new: " + alpha_new);
-		console.log(visible);
 		var source = alpha;
 		var minDistance = 360;
 		var min;
@@ -171,8 +172,8 @@ function findTheClosestEvent() {
 			}
 			
 		}
-		console.log("closest is " + closest);
-		console.log(visible.every(isNotVisible))
+		console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy" + thetaGrouped);
+		
 		/*
 		 * If there are no events displayed on the screen, left/right arrow must be placed on the screen,
 		 * according to the closest event
@@ -405,7 +406,6 @@ function hideIcon(i) {
 	var x = document.getElementById("icon" + i);
 	if (x.style.display != "none"){
 		x.style.display = "none";
-		console.log("hide icon " + i);
 		visible[i] = false;
 	}
 }
@@ -417,7 +417,6 @@ function showIcon(i) {
 	var x = document.getElementById("icon" + i);
 	if (x.style.display != "block"){
 		x.style.display = "block";
-		console.log("show icon " + i);
 		visible[i] = true;
 	}
 }
@@ -498,7 +497,60 @@ function showPosition(position) {
         	theta[i] -= 360;
         }
     }
-    
+    groupEvents();
+}
+
+/*
+ * Grouping close events into 1 marker.
+ * If events are close and overlaying each other, they will be grouped.
+ * They will be grouped if offset is less than 3 degrees.
+ */
+function groupEvents() {
+	var continueGroupping = true;
+	thetaGrouped = theta;
+	thetaSorted = theta;
+	thetaGrouped.sort(function(a, b)
+			{
+			    return a - b;	
+			});
+	thetaSorted.sort(function(a, b)
+			{
+			    return a - b;	
+			});
+	var i = 0;
+	while (continueGroupping) {
+		var array;
+		if (i == 0) {
+			array = thetaSorted;
+			i++;
+		} else {
+			array = thetaGrouped;
+		}
+		for (i = 0; i < array.length; i++) {
+			var first = i;
+			var second = i + 1;
+			if (second == array.length) {
+				second = 0;
+			}
+			if (Math.abs(array[first] - array[second]) < 3) {
+				console.log("happening");
+				thetaGrouped.splice(second, 1);	
+				break;
+			}
+		}
+		continueGroupping = false;
+		var i;
+		for (i = 0; i < thetaGrouped.length; i++) {
+			var first = i;
+			var second = i + 1;
+			if (second == thetaGrouped.length) {
+				second = 0;
+			}
+			if (Math.abs(thetaGrouped[first] - thetaGrouped[second]) < 3) {
+				continueGroupping = true;
+			} 
+		}
+	}	
 }
 
 function toRadians(degrees)
