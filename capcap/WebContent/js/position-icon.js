@@ -41,6 +41,8 @@ var grouped = [];
 
 var thetaGrouped;
 
+var thetaFinal;
+
 /*
  * Function for counting total number of events.
  * JSON file is read from server and placed to variable myObj.
@@ -508,7 +510,8 @@ function showPosition(position) {
 function groupEvents() {
 	var continueGroupping = true;
 	thetaGrouped = theta;
-	thetaSorted = theta;
+	var thetaSorted = theta;
+	
 	thetaGrouped.sort(function(a, b)
 			{
 			    return a - b;	
@@ -534,6 +537,7 @@ function groupEvents() {
 			}
 			if (Math.abs(array[first] - array[second]) < 3) {
 				console.log("happening");
+				thetaFinal[first] = thetaFinal[second];
 				thetaGrouped.splice(second, 1);	
 				break;
 			}

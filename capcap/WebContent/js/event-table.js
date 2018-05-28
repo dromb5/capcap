@@ -19,7 +19,7 @@ function countEvents() {
 	        counter = Object.keys(myObj.events).length;
 	    }
 	};
-	xmlhttp.open("GET", "https://api.myjson.com/bins/cs7tf", true);
+	xmlhttp.open("GET", "https://api.myjson.com/bins/9qodu", true);
 	xmlhttp.send();
 }
 

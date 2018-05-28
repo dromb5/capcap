@@ -5,107 +5,65 @@ var counter;
 
 var features = [];
 
+var locations = [];
+
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
-	  zoom: 16,
-	  center: new google.maps.LatLng(45.8, 16.02),
-	  mapTypeId: 'roadmap'
+	  zoom: 5,
+	  center: new google.maps.LatLng(45.8, 16.02)
 	});
 	
-	var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 	var icons = {
 	  fire: {
-		  icon: 'images/fire.png'
+		  url: 'images/fire.png',
+		  labelOrigin: new google.maps.Point(35,10)
 	  },
 	  tint: {
-		  icon: 'images/tint.png'
+		  url: 'images/tint.png',
+		  labelOrigin: new google.maps.Point(35,10)
 	  },
 	  rss: {
-		  icon: 'images/rss.png'
+		  url: 'images/rss.png',
+		  labelOrigin: new google.maps.Point(35,10)
 	  }
 	};
-	/*
-	var features = [
-	  {
-	    position: new google.maps.LatLng(-33.91721, 151.22630),
-	    type: 'fire'
-	  }, {
-	    position: new google.maps.LatLng(-33.91539, 151.22820),
-	    type: 'fire'
-	  }, {
-	    position: new google.maps.LatLng(-33.91747, 151.22912),
-	    type: 'info'
-	  }, {
-	    position: new google.maps.LatLng(-33.91910, 151.22907),
-	    type: 'info'
-	  }, {
-	    position: new google.maps.LatLng(-33.91725, 151.23011),
-	    type: 'info'
-	  }, {
-	    position: new google.maps.LatLng(-33.91872, 151.23089),
-	    type: 'info'
-	  }, {
-	    position: new google.maps.LatLng(-33.91784, 151.23094),
-	    type: 'info'
-	  }, {
-	    position: new google.maps.LatLng(-33.91682, 151.23149),
-	    type: 'info'
-	  }, {
-	    position: new google.maps.LatLng(-33.91790, 151.23463),
-	    type: 'info'
-	  }, {
-	    position: new google.maps.LatLng(-33.91666, 151.23468),
-	    type: 'info'
-	  }, {
-	    position: new google.maps.LatLng(-33.916988, 151.233640),
-	    type: 'info'
-	  }, {
-	    position: new google.maps.LatLng(-33.91662347903106, 151.22879464019775),
-	    type: 'parking'
-	  }, {
-	    position: new google.maps.LatLng(-33.916365282092855, 151.22937399734496),
-	    type: 'parking'
-	  }, {
-	    position: new google.maps.LatLng(-33.91665018901448, 151.2282474695587),
-	    type: 'parking'
-	  }, {
-	    position: new google.maps.LatLng(-33.919543720969806, 151.23112279762267),
-	    type: 'parking'
-	  }, {
-	    position: new google.maps.LatLng(-33.91608037421864, 151.23288232673644),
-	    type: 'fire'
-	  }, {
-	    position: new google.maps.LatLng(-33.91851096391805, 151.2344058214569),
-	    type: 'parking'
-	  }, {
-	    position: new google.maps.LatLng(-33.91818154739766, 151.2346203981781),
-	    type: 'parking'
-	  }, {
-	    position: new google.maps.LatLng(-33.91727341958453, 151.23348314155578),
-	    type: 'library'
-	  }
-	];
-	*/
 	
-	// Create markers.
-	var check = function(){
-	    if(features != 0){
-	    	console.log("ok");
-			features.forEach(function(feature) {
-			      var marker = new google.maps.Marker({
-			        position: feature.position,
-			        icon: icons[feature.type].icon,
-			        map: map
-			      });
-			    });
+	var infowindow = new google.maps.InfoWindow({
+        content: "abc"
+      });
+	
+	var markers;
+	
+	var check = function() {
+	    if(features != 0) {
+	    	markers = features.map(function(location, i) {
+	    		return new google.maps.Marker({
+	    			position: location,
+	    			icon: icons[features[i].type],
+	    			label: {
+	    				text: features[i].type,
+	    				fontWeight: "bold"
+	    			}
+	            });
+	    	});
+	    	var markerCluster = new MarkerClusterer(map, markers,
+	                {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+	    	var i;
+	    	for (i = 0; i < markers.length; i++) {
+	    		markers[i].addListener('click', function() {
+	    	          infowindow.open(map, markers[i]);
+	            });
+	    	}
 	    }
 	    else {
-	        setTimeout(check, 500); // check again in a second
+	        setTimeout(check, 500);
 	    }
 	}
+	console.log(markers);
+	
+	console.log("added");
 
 	check();
-
 }
       
 function countEvents() {
@@ -118,13 +76,17 @@ function countEvents() {
 	        var i;
 	    	for (i = 0; i < counter; i++) {
 	    		features.push({
-	    			position: new google.maps.LatLng(myObj.events[i].latitude, myObj.events[i].longitude),
+	    			lat: myObj.events[i].latitude,
+	    			lng: Number(myObj.events[i].longitude),
 	    			type: myObj.events[i].eventType
 	    		});
+	    		locations.push({
+	    			lat: myObj.events[i].latitude, 
+	    			lng: Number(myObj.events[i].longitude)
+	    		});
 	    	}
-	    	console.log(features);
 	    }
 	};
-	xmlhttp.open("GET", "https://api.myjson.com/bins/cs7tf", true);
+	xmlhttp.open("GET", "https://api.myjson.com/bins/9qodu", true);
 	xmlhttp.send();
 }    
