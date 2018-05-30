@@ -48,12 +48,14 @@ function initMap() {
 	    	});
 	    	var markerCluster = new MarkerClusterer(map, markers,
 	                {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+	    	/*
 	    	var i;
 	    	for (i = 0; i < markers.length; i++) {
 	    		markers[i].addListener('click', function() {
 	    	          infowindow.open(map, markers[i]);
 	            });
 	    	}
+	    	*/
 	    }
 	    else {
 	        setTimeout(check, 500);
