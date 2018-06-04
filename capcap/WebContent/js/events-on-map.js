@@ -25,6 +25,34 @@ function initMap() {
 	  rss: {
 		  url: 'images/rss.png',
 		  labelOrigin: new google.maps.Point(35,10)
+	  },
+	  parachute: {
+		  url: 'images/parachute.png',
+		  labelOrigin: new google.maps.Point(60,10)
+	  },
+	  ambulance: {
+		  url: 'images/ambulance.png',
+		  labelOrigin: new google.maps.Point(60,10)
+	  },
+	  earthquake: {
+		  url: 'images/earthquake.png',
+		  labelOrigin: new google.maps.Point(65,10)
+	  },
+	  exclamation: {
+		  url: 'images/exclamation.png',
+		  labelOrigin: new google.maps.Point(65,10)
+	  },
+	  police: {
+		  url: 'images/police.png',
+		  labelOrigin: new google.maps.Point(45,10)
+	  },
+	  rescue: {
+		  url: 'images/rescue.png',
+		  labelOrigin: new google.maps.Point(45,10)
+	  },
+	  firefighters: {
+		  url: 'images/firefighters.png',
+		  labelOrigin: new google.maps.Point(65,10)
 	  }
 	};
 	
@@ -89,6 +117,6 @@ function countEvents() {
 	    	}
 	    }
 	};
-	xmlhttp.open("GET", "https://api.myjson.com/bins/9qodu", true);
+	xmlhttp.open("GET", "https://api.myjson.com/bins/1gm3t6", true);
 	xmlhttp.send();
 }    

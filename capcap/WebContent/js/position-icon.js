@@ -56,7 +56,7 @@ function countEvents() {
 	        counter = Object.keys(myObj.events).length;
 	    }
 	};
-	xmlhttp.open("GET", "https://api.myjson.com/bins/9qodu", true);
+	xmlhttp.open("GET", "https://api.myjson.com/bins/1gm3t6", true);
 	xmlhttp.send();
 }
 
@@ -80,6 +80,11 @@ function createEvent() {
 	    		var div = document.createElement('div');
 	    		var eventType;
 	            eventType = myObj.events[i].eventType;
+	            if (eventType == 'parachute') {
+	            	eventType = 'parachute-box';
+	            } else if (eventType == 'earthquake') {
+	            	eventType = 'creative-commons-sampling';
+	            } 
 	            var eventLatitude = myObj.events[i].latitude;
 	            var eventLongitude = myObj.events[i].longitude;
 	            var distance = getDistanceBetweenCoordinates(latitude, longitude, eventLatitude, eventLongitude);
@@ -93,6 +98,19 @@ function createEvent() {
 	             */
 	            div.innerHTML = "<a href=\"" + href + "\"><div id=\"distance\">" + distance + " km"
 	            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon\"></i></a>";
+	            if (eventType == 'police') {
+	            	div.innerHTML = "<a href=\"" + href + "\"><div id=\"distance\">" + distance + " km"
+		            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon-police\"></i></a>";
+	            } else if (eventType == 'ambulance') {
+	            	div.innerHTML = "<a href=\"" + href + "\"><div id=\"distance\">" + distance + " km"
+		            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon-ambulance\"></i></a>";
+	            } else if (eventType == 'firefighters') {
+	            	div.innerHTML = "<a href=\"" + href + "\"><div id=\"distance\">" + distance + " km"
+		            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon-firefighters\"></i></a>";
+	            } else if (eventType == 'rescue') {
+	            	div.innerHTML = "<a href=\"" + href + "\"><div id=\"distance\">" + distance + " km"
+		            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon-rescue-team\"></i></a>";
+	            }
 	        	div.setAttribute('id', 'icon' + i);
 	        	div.setAttribute('class', 'icon');
 	        	var eventNumber = i;

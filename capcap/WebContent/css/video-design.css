@@ -89,12 +89,47 @@ div.righticon {
 }
 
 #tint-icon {
-	color: blue;
+	color: 0000FF;
 	text-align: center;
 }
 
 #rss-icon {
 	color:#ff8000;
+	text-align: center;
+}
+
+#parachute-box-icon {
+	color:#ff8000;
+	text-align: center;
+}
+
+#exclamation-icon {
+	color:red;
+	text-align: center;
+}
+
+#creative-commons-sampling-icon {
+	color:#964B00;
+	text-align: center;
+}
+
+#police-icon {
+	color:#0000ff;
+	text-align: center;
+}
+
+#ambulance-icon {
+	color:#ffffff;
+	text-align: center;
+}
+
+#firefighters-icon {
+	color:red;
+	text-align: center;
+}
+
+#rescue-team-icon {
+	color:#964B00;
 	text-align: center;
 }
 

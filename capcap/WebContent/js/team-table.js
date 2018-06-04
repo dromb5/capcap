@@ -33,23 +33,27 @@ function fillTable() {
 	    	document.getElementsByClassName('loader')[0].style.visibility = 'hidden';
 	    	var i;
 	    	var table = document.getElementById("table");
+	    	var team = 1;
 	    	for (i = 0; i < counter; i++) {
-	    		var row = table.insertRow(i + 1);
-	    	    var cell1 = row.insertCell(0);
-	    	    var cell2 = row.insertCell(1);
-	    	    var cell3 = row.insertCell(2);
-	    	    var cell4 = row.insertCell(3);
-	    	    cell1.innerHTML = myObj.events[i].eventType;
-	    	    cell2.innerHTML = myObj.events[i].latitude;
-	    	    cell3.innerHTML = myObj.events[i].longitude;
-	    	    /*
-	    	     * Last cell displays icon of a map.
-	    	     * Click on icon will forward user to the Google Maps, and open a marker on a specific location.
-	    	     * That location is set up in href variable.
-	    	     */
-	    	    var href = "https://www.google.com/maps/?q=" + myObj.events[i].latitude + "," + myObj.events[i].longitude;
-	    	    var icon = "<i class=\"fas fa-map\"></i>";
-	    	    cell4.innerHTML = "<a href=" + href + ">" + icon + "</a>";
+	    		if (myObj.events[i].eventType == 'police') {
+	    			var row = table.insertRow(team);
+	    			team++;
+		    	    var cell1 = row.insertCell(0);
+		    	    var cell2 = row.insertCell(1);
+		    	    var cell3 = row.insertCell(2);
+		    	    var cell4 = row.insertCell(3);
+		    	    cell1.innerHTML = myObj.events[i].eventType;
+		    	    cell2.innerHTML = myObj.events[i].latitude;
+		    	    cell3.innerHTML = myObj.events[i].longitude;
+		    	    /*
+		    	     * Last cell displays icon of a map.
+		    	     * Click on icon will forward user to the Google Maps, and open a marker on a specific location.
+		    	     * That location is set up in href variable.
+		    	     */
+		    	    var href = "https://www.google.com/maps/?q=" + myObj.events[i].latitude + "," + myObj.events[i].longitude;
+		    	    var icon = "<i class=\"fas fa-map\"></i>";
+		    	    cell4.innerHTML = "<a href=" + href + ">" + icon + "</a>";
+	    		}
 	    	}
 	    }
 	    else {
