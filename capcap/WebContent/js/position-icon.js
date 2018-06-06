@@ -321,7 +321,7 @@ function makeNewPosition(betta, aalpha, i){
  */
 function init() {
     //Find our div containers in the DOM
-    var dataContainerOrientation = document.getElementById('dataContainerOrientation');
+    var dataContainerOrientamation = document.getElementById('dataContainerOrientation');
     var dataContainerMotion = document.getElementById('dataContainerMotion');
     
     //Check for support for DeviceOrientation event
@@ -330,12 +330,6 @@ function init() {
               alpha = event.alpha;
               beta = event.beta;
               gamma = event.gamma;
-              var abs = event.absolute;
-              /*
-              if(alpha!=null || beta!=null || gamma!=null) 
-                dataContainerOrientation.innerHTML = 'alpha: ' + alpha + '<br/>beta: ' + beta + '<br />gamma: ' + gamma
-                + '<br />abs: ' + abs + '<br />theta: ' + theta;
-              */
             }, true);
     }    
     

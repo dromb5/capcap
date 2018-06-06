@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<title>Crisis Event Manager</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/main-design.css">
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+    <a href="#home" class="w3-bar-item w3-button"><b>Crisis Event Manager</b></a>
+    <!-- Float links to the right. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <a href="#about" class="w3-bar-item w3-button">About</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+
+
+<!-- Page content -->
+<div class="w3-content w3-padding" style="max-width:1564px">
+
+  <!-- Project Section -->
+  <div class="w3-container w3-padding-32" id="projects">
+    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Menu</h3>
+  </div>
+
+  <div class="w3-row-padding">
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+      	<a href="CameraScreen.html">
+        	<div class="w3-display-topleft w3-black w3-padding">AR View</div>
+        	<img src="images/ar_view.jpg" alt="House" style="width:100%">
+        </a>
+      </div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+      	<a href="EventsMap.html">
+        	<div class="w3-display-topleft w3-black w3-padding">Map</div>
+        	<img src="images/map.jpg" alt="House" style="width:100%">
+        </a>
+      </div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+      	<a href="ListEvents.html">
+        	<div class="w3-display-topleft w3-black w3-padding">Active Events</div>
+        	<img src="images/active_events.jpg" alt="House" style="width:100%">
+        </a>	
+      </div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+      	<a href="ActiveTeams.html">
+        	<div class="w3-display-topleft w3-black w3-padding">Active Teams</div>
+        	<img src="images/active_teams.jpg" alt="House" style="width:100%">
+        </a>	
+      </div>
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <div class="w3-container w3-padding-32" id="about">
+    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">About</h3>
+    <p>This website provides information that is out of significant importance. 
+    Various teams and events can be seen as AR view or on the map. 
+    Application is developed for the purpose of a master thesis.
+    </p>
+  </div>
+
+  
+  
+<!-- End page content -->
+</div>
+
+<!-- Google Map -->
+<div id="googleMap" class="w3-grayscale" style="width:100%;height:450px;"></div>
+
+
+
+<!-- Add Google Maps -->
+<script>
+function myMap()
+{
+  myCenter=new google.maps.LatLng(45.8003394, 15.9710278);
+  var mapOptions= {
+    center:myCenter,
+    zoom:16, scrollwheel: false, draggable: false,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  var map=new google.maps.Map(document.getElementById("googleMap"),mapOptions);
+
+  var marker = new google.maps.Marker({
+    position: myCenter,
+  });
+  marker.setMap(map);
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?callback=myMap"></script>
+<!--
+To use this code on your website, get a free API key from Google.
+Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
+-->
+
+</body>
+</html>
