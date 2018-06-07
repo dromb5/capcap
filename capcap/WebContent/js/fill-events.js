@@ -8,14 +8,27 @@ function fillEvents(imageSource, imageName) {
 	innerDiv.className = "w3-display-topleft w3-black w3-padding";
 	innerDiv.innerHTML = imageName;
 	
+	var infoDiv = document.createElement('div');
+	infoDiv.className = "w3-display-bottomleft w3-padding";
+	
+	var shortEventInfo = "Info About Event sdfgsdfsf fdvefwewe fwefw";
+	
+	var info = "<a class=\"event-info\">" + shortEventInfo + "</a>";
+	
+	infoDiv.innerHTML = info;
+	
 	var image = document.createElement('img');
 	image.src = imageSource;
 	image.style='width:100%';
 	
 	outerDiv.appendChild(innerDiv);
+	outerDiv.appendChild(infoDiv);
 	outerDiv.appendChild(image);
 	
 	div.appendChild(outerDiv);
+	
+	$(outerDiv).hide();
+	
 }
 
 /*
@@ -61,6 +74,24 @@ function fillTable() {
 		    		if (myObj.events[i].eventType == 'fire') {
 		    			imageSource = 'images/fire.jpg';
 		    			imageName = 'Fire';
+		    		} else if (myObj.events[i].eventType == 'flood') {
+		    			imageSource = 'images/flood.jpg';
+		    			imageName = 'Flood';
+		    		} else if (myObj.events[i].eventType == 'earthquake') {
+		    			imageSource = 'images/earthquake.jpg';
+		    			imageName = 'Earthquake';
+		    		} else if (myObj.events[i].eventType == 'hurricane') {
+		    			imageSource = 'images/hurricane.jpg';
+		    			imageName = 'Hurricane';
+		    		} else if (myObj.events[i].eventType == 'rescuing') {
+		    			imageSource = 'images/rescuing.jpg';
+		    			imageName = 'Rescuing';
+		    		} else if (myObj.events[i].eventType == 'information') {
+		    			imageSource = 'images/information.jpg';
+		    			imageName = 'Info';
+		    		} else if (myObj.events[i].eventType == 'warning') {
+		    			imageSource = 'images/warning.jpg';
+		    			imageName = 'Warning';
 		    		}
 		    		
 		    		fillEvents(imageSource, imageName);
@@ -68,10 +99,14 @@ function fillTable() {
 		    	    //cell2.innerHTML = myObj.events[i].latitude;
 		    	    //cell3.innerHTML = myObj.events[i].longitude;
 	    		}
+	    		
 		    		
 	    	    
 	    	    
 	    	}
+	    	$("div.w3-display-container").each(function(index) {
+	    	    $(this).delay(400*index).fadeIn(300);
+	    	});
 	    }
 	    else {
 	        setTimeout(check, 500);

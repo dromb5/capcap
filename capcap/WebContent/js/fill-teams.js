@@ -8,14 +8,26 @@ function fillEvents(imageSource, imageName) {
 	innerDiv.className = "w3-display-topleft w3-black w3-padding";
 	innerDiv.innerHTML = imageName;
 	
+	var infoDiv = document.createElement('div');
+	infoDiv.className = "w3-display-bottomleft w3-padding";
+	
+	var shortEventInfo = "Info About Event sdfgsdfsf fdvefwewe fwefw";
+	
+	var info = "<a class=\"event-info\">" + shortEventInfo + "</a>";
+	
+	infoDiv.innerHTML = info;
+	
 	var image = document.createElement('img');
 	image.src = imageSource;
 	image.style='width:100%';
 	
 	outerDiv.appendChild(innerDiv);
+	outerDiv.appendChild(infoDiv);
 	outerDiv.appendChild(image);
 	
 	div.appendChild(outerDiv);
+	
+	$(outerDiv).hide();
 }
 
 /*
@@ -59,6 +71,15 @@ function fillTable() {
 		    		if (myObj.events[i].eventType == 'police') {
 		    			imageSource = 'images/police.jpg';
 		    			imageName = 'Police';
+		    		} else if (myObj.events[i].eventType == 'ambulance') {
+		    			imageSource = 'images/ambulance.jpg';
+		    			imageName = 'Ambulance';
+		    		} else if (myObj.events[i].eventType == 'firefighters') {
+		    			imageSource = 'images/firefighters.jpg';
+		    			imageName = 'Firefighters';
+		    		} else if (myObj.events[i].eventType == 'rescue') {
+		    			imageSource = 'images/rescue.jpg';
+		    			imageName = 'Rescue team';
 		    		}
 		    		
 		    		fillEvents(imageSource, imageName);
@@ -70,6 +91,9 @@ function fillTable() {
 	    	    
 	    	    
 	    	}
+	    	$("div.w3-display-container").each(function(index) {
+	    	    $(this).delay(400*index).fadeIn(300);
+	    	});
 	    }
 	    else {
 	        setTimeout(check, 500);
