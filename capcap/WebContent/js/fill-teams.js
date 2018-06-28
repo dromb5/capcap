@@ -15,6 +15,14 @@ function fillEvents(imageSource, imageName) {
 	
 	var info = "<a class=\"event-info\">" + shortEventInfo + "</a>";
 	
+	if (imageName == 'Ambulance') {
+		info = "<a class=\"event-info\">" + "Team is in charge for fire event in Zitnjak" + "</a>";
+	} else if (imageName == 'Police') {
+		info = "<a class=\"event-info\">" + "Team is in charge for flood around Jarun Lake" + "</a>";
+	} else if (imageName == 'Firefighters') {
+		info = "<a class=\"event-info\">" + "Team is in charge for fire event in Zitnjak" + "</a>";
+	}
+	
 	infoDiv.innerHTML = info;
 	
 	var image = document.createElement('img');

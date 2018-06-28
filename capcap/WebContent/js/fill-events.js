@@ -1,4 +1,4 @@
-function fillEvents(imageSource, imageName) {
+function fillEvents(imageSource, imageName, id, shortInfo) {
 	var div = document.getElementById('event-container');
 	
 	var outerDiv = document.createElement('div');
@@ -13,7 +13,15 @@ function fillEvents(imageSource, imageName) {
 	
 	var shortEventInfo = "Info About Event sdfgsdfsf fdvefwewe fwefw";
 	
-	var info = "<a class=\"event-info\">" + shortEventInfo + "</a>";
+	var info = "<a class=\"event-info\">" + shortInfo + "</a>";
+	
+	if (imageName == 'Fire') {
+		info = "<a class=\"event-info\">" + "Fire in Zitnjak" + "</a>";
+	} else if (imageName == 'Flood') {
+		info = "<a class=\"event-info\">" + "Flood around Jarun Lake" + "</a>";
+	} else if (imageName == 'Earthquake') {
+		info = "<a class=\"event-info\">" + "Magnitude 2.7, around Delnice" + "</a>";
+	}
 	
 	infoDiv.innerHTML = info;
 	
@@ -21,9 +29,15 @@ function fillEvents(imageSource, imageName) {
 	image.src = imageSource;
 	image.style='width:100%';
 	
-	outerDiv.appendChild(innerDiv);
-	outerDiv.appendChild(infoDiv);
-	outerDiv.appendChild(image);
+	var a = document.createElement('a');
+	a.href = "Event.html?eventId=" + id;
+	
+	
+	a.appendChild(innerDiv);
+	a.appendChild(infoDiv);
+	a.appendChild(image);
+	
+	outerDiv.appendChild(a);
 	
 	div.appendChild(outerDiv);
 	
@@ -52,7 +66,7 @@ function countEvents() {
 	        counter = Object.keys(myObj.events).length;
 	    }
 	};
-	xmlhttp.open("GET", "https://api.myjson.com/bins/x3kwy", true);
+	xmlhttp.open("GET", "https://api.myjson.com/bins/cxhhi", true);
 	xmlhttp.send();
 }
 
@@ -94,7 +108,10 @@ function fillTable() {
 		    			imageName = 'Warning';
 		    		}
 		    		
-		    		fillEvents(imageSource, imageName);
+		    		var id = myObj.events[i].id;
+		    		var shortInfo = myObj.events[i].shortInfo;
+		    		
+		    		fillEvents(imageSource, imageName, id, shortInfo);
 		    		
 		    	    //cell2.innerHTML = myObj.events[i].latitude;
 		    	    //cell3.innerHTML = myObj.events[i].longitude;
