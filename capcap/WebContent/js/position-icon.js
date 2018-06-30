@@ -56,7 +56,7 @@ function countEvents() {
 	        counter = Object.keys(myObj.events).length;
 	    }
 	};
-	xmlhttp.open("GET", "https://api.myjson.com/bins/bfceu", true);
+	xmlhttp.open("GET", "https://api.myjson.com/bins/1953pe", true);
 	xmlhttp.send();
 }
 
@@ -80,11 +80,26 @@ function createEvent() {
 	    		var div = document.createElement('div');
 	    		var eventType;
 	            eventType = myObj.events[i].eventType;
-	            if (eventType == 'parachute') {
+	            if (eventType == 'rescuing') {
 	            	eventType = 'parachute-box';
 	            } else if (eventType == 'earthquake') {
 	            	eventType = 'creative-commons-sampling';
-	            } 
+	            } else if (eventType == 'flood') {
+	            	eventType = 'tint';
+	            } else if (eventType == 'info') {
+	            	eventType = 'rss';
+	            } else if (eventType == 'warning') {
+	            	eventType = 'exclamation';
+	            } else if (eventType == 'police') {
+	            	eventType = 'male';
+	            } else if (eventType == 'ambulance') {
+	            	eventType = 'male';
+	            } else if (eventType == 'firefighters') {
+	            	eventType = 'male';
+	            } else if (eventType == 'rescue') {
+	            	eventType = 'male';
+	            }
+	            console.log(eventType);
 	            var eventLatitude = myObj.events[i].latitude;
 	            var eventLongitude = myObj.events[i].longitude;
 	            var distance = getDistanceBetweenCoordinates(latitude, longitude, eventLatitude, eventLongitude);
@@ -100,16 +115,16 @@ function createEvent() {
 	            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon\"></i></a>";
 	            if (eventType == 'police') {
 	            	div.innerHTML = "<a href=\"" + href + "\"><div id=\"distance\">" + distance + " km"
-		            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon-police\"></i></a>";
+		            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"police-icon\"></i></a>";
 	            } else if (eventType == 'ambulance') {
 	            	div.innerHTML = "<a href=\"" + href + "\"><div id=\"distance\">" + distance + " km"
-		            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon-ambulance\"></i></a>";
+		            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"ambulance-icon\"></i></a>";
 	            } else if (eventType == 'firefighters') {
 	            	div.innerHTML = "<a href=\"" + href + "\"><div id=\"distance\">" + distance + " km"
-		            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon-firefighters\"></i></a>";
+		            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" style=\"color:red;\"></i></a>";
 	            } else if (eventType == 'rescue') {
 	            	div.innerHTML = "<a href=\"" + href + "\"><div id=\"distance\">" + distance + " km"
-		            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" id=\"" + eventType + "-icon-rescue-team\"></i></a>";
+		            + "</div><i class=\"fas fa-" + eventType + " fa-7x\" style=\"color:red;\"></i></a>";
 	            }
 	        	div.setAttribute('id', 'icon' + i);
 	        	div.setAttribute('class', 'icon');
@@ -192,7 +207,6 @@ function findTheClosestEvent() {
 			}
 			
 		}
-		console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy" + thetaGrouped);
 		
 		/*
 		 * If there are no events displayed on the screen, left/right arrow must be placed on the screen,
