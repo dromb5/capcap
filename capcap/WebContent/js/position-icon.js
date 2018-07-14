@@ -56,7 +56,7 @@ function countEvents() {
 	        counter = Object.keys(myObj.events).length;
 	    }
 	};
-	xmlhttp.open("GET", "https://api.myjson.com/bins/1953pe", true);
+	xmlhttp.open("GET", "https://api.myjson.com/bins/9om0m", true);
 	xmlhttp.send();
 }
 

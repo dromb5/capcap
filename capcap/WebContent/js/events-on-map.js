@@ -117,6 +117,6 @@ function countEvents() {
 	    	}
 	    }
 	};
-	xmlhttp.open("GET", "https://api.myjson.com/bins/1gm3t6", true);
+	xmlhttp.open("GET", "https://api.myjson.com/bins/9om0m", true);
 	xmlhttp.send();
 }    
